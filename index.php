@@ -81,12 +81,14 @@ function checkUser($userid) {
 
 function checkStatus($userid) {
     $result = mysqli_query($GLOBALS["conn"], "SELECT status from users WHERE id ='$userid' ");
-    return $result;
+    $row = mysqli_fetch_assoc($result);
+    return $row;
 }
 
 function getRelationship($userid) {
     $result = mysqli_query($GLOBALS["conn"], "SELECT relationship from users WHERE id ='$userid' ");
-    return $result;
+    $row = mysqli_fetch_assoc($result);
+    return $row;
 }
 
 function addRelationship($user1, $user2) {
