@@ -92,7 +92,6 @@ function getRelationship($userid) {
 function addRelationship($user1, $user2) {
     mysql_query("UPDATE users SET status = 1, relationship ='$user2'  WHERE id ='$user1' ");
     mysql_query("UPDATE users SET status = 1, relationship ='$user1'  WHERE id ='$user2' ");
-    return $result;
 }
 
 function deleteRelationship($userid) {
