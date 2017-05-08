@@ -25,13 +25,13 @@ if (isset($data['entry'][0]['messaging'][0]['message']['text'])) {
     if ($message === "bot")
         sendButton($sender);
     else 
-        forwardMessage($sender, $message)
+        forwardMessage($sender, $message);
 }
 
 if (isset($data['entry'][0]['messaging'][0]['postback']['payload'])) {
 	$postback = $data['entry'][0]['messaging'][0]['postback']['payload'];
     if ($postback === "start") {
-        if checkUser($sender)
+        if (checkUser($sender))
             if (checkStatus($sender) === 0)
                 findRelationship($sender);
             else 
@@ -42,7 +42,7 @@ if (isset($data['entry'][0]['messaging'][0]['postback']['payload'])) {
         }
     }
     if ($postback === "stop") {
-        if checkUser($sender) {
+        if (checkUser($sender)) {
             if (checkStatus($sender) === 0)
                 sendMessage($sender, "Sorry, you don't have any conversation to end");
             else
