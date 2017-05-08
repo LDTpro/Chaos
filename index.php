@@ -2,7 +2,7 @@
 
 require 'config.php';
 
-$conn = new mysqli($DBHOST, $DBUSER, $DBPW, $DBNAME);
+$conn = mysqli_connect($DBHOST, $DBUSER, $DBPW, $DBNAME);
 
 if (isset($_GET['hub_verify_token'])) { 
     if ($_GET['hub_verify_token'] === $VERIFY_TOKEN) {
@@ -73,35 +73,35 @@ function sendButton($receiver) {
 }
 
 function checkUser($userid) {
-    $result = mysql_query("SELECT * from users WHERE id ='$userid' LIMIT 1");
-    if(mysql_fetch_array($result) !== false)
+    $result = mysqli_query($GLOBALS["conn"], "SELECT * from users WHERE id ='$userid' LIMIT 1");
+    if ($result !== NULL)
         return true;
     return false;
 }
 
 function checkStatus($userid) {
-    $result = mysql_query("SELECT status from users WHERE id ='$userid' ");
+    $result = mysqli_query($GLOBALS["conn"], "SELECT status from users WHERE id ='$userid' ");
     return $result;
 }
 
 function getRelationship($userid) {
-    $result = mysql_query("SELECT relationship from users WHERE id ='$userid' ");
+    $result = mysqli_query($GLOBALS["conn"], "SELECT relationship from users WHERE id ='$userid' ");
     return $result;
 }
 
 function addRelationship($user1, $user2) {
-    mysql_query("UPDATE users SET status = 1, relationship ='$user2'  WHERE id ='$user1' ");
-    mysql_query("UPDATE users SET status = 1, relationship ='$user1'  WHERE id ='$user2' ");
+    mysqli_query($GLOBALS["conn"], "UPDATE users SET status = 1, relationship ='$user2'  WHERE id ='$user1' ");
+    mysqli_query($GLOBALS["conn"], "UPDATE users SET status = 1, relationship ='$user1'  WHERE id ='$user2' ");
 }
 
 function deleteRelationship($userid) {
     $partner = getRelationship($userid);
-    mysql_query("UPDATE users SET status = 0, relationship = NULL WHERE id ='@userid' ");
-    mysql_query("UPDATE users SET status = 0, relationship = NULL WHERE id ='$partner' ");
+    mysqli_query($GLOBALS["conn"], "UPDATE users SET status = 0, relationship = NULL WHERE id ='@userid' ");
+    mysqli_query($GLOBALS["conn"], "UPDATE users SET status = 0, relationship = NULL WHERE id ='$partner' ");
 }
 
 function addUser($userid) {
-    mysql_query("INSERT INTO users (id, status) VALUES ('$userid', '0')");
+    mysqli_query($GLOBALS["conn"], "INSERT INTO users (id, status) VALUES ('$userid', '0')");
 }
 
 function forwardMessage($userid, $msg) {
@@ -111,7 +111,7 @@ function forwardMessage($userid, $msg) {
 }
 
 function findRelationship($userid) {
-    $partner = mysql_query("SELECT id FROM user WHERE status = 0 AND id != '$userid' ORDER BY RAND() LIMIT 1");
+    $partner = mysqli_query($GLOBALS["conn"], "SELECT id FROM user WHERE status = 0 AND id != '$userid' ORDER BY RAND() LIMIT 1");
     if ($partner === false)
         sendMessage($userid, "Sorry, no stranger available now");
     else {
@@ -121,6 +121,6 @@ function findRelationship($userid) {
     }
 }
 
-$conn->close();
+mysqli_close($conn);
 
 ?>
