@@ -54,6 +54,7 @@ if (isset($data['entry'][0]['messaging'][0]['postback']['payload'])) {
 }
 
 function request($jsondata) {
+    $ACCESS_TOKEN = $GLOBALS["ACCESS_TOKEN"];
 	$url = "https://graph.facebook.com/v2.9/me/messages?access_token=$ACCESS_TOKEN";
 	$ch = curl_init($url);
 	curl_setopt($ch, CURLOPT_POST, 1);
