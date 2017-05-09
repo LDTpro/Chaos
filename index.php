@@ -32,7 +32,7 @@ if (isset($data['entry'][0]['messaging'][0]['postback']['payload'])) {
 	$postback = $data['entry'][0]['messaging'][0]['postback']['payload'];
     if ($postback === "start") {
         if (checkUser($sender))
-            if (checkStatus($sender) === 0)
+            if (checkStatus($sender) == 0)
                 findRelationship($sender);
             else 
                 sendMessage($sender, "Sorry, you can't start new conversation, you must end this conversation first");
@@ -43,7 +43,7 @@ if (isset($data['entry'][0]['messaging'][0]['postback']['payload'])) {
     }
     if ($postback === "stop") {
         if (checkUser($sender)) {
-            if (checkStatus($sender) === 0)
+            if (checkStatus($sender) == 0)
                 sendMessage($sender, "Sorry, you don't have any conversation to end");
             else
                 deleteRelationship($sender);
@@ -102,6 +102,8 @@ function deleteRelationship($userid) {
     $partner = getRelationship($userid);
     mysqli_query($GLOBALS["conn"], "UPDATE users SET status = 0, relationship = NULL WHERE id =$userid ");
     mysqli_query($GLOBALS["conn"], "UPDATE users SET status = 0, relationship = NULL WHERE id =$partner ");
+    sendMessage($userid, "The stranger left the conversation");
+    sendMessage($partner, "The stranger left the conversation");
 }
 
 function addUser($userid) {
@@ -110,13 +112,15 @@ function addUser($userid) {
 
 function forwardMessage($userid, $msg) {
     $partner = getRelationship($userid);
-    if ($partner !== false)
+    if ($partner != NULL)
         sendMessage($partner, $msg);
 }
 
 function findRelationship($userid) {
-    $partner = mysqli_query($GLOBALS["conn"], "SELECT id FROM user WHERE status = 0 AND id != $userid ORDER BY RAND() LIMIT 1");
-    if ($partner === false)
+    $result = mysqli_query($GLOBALS["conn"], "SELECT id FROM users WHERE status = 0 AND id != $userid ORDER BY RAND() LIMIT 1");
+    $row = mysqli_fetch_assoc($result);
+    $partner = $row['id'];
+    if ($partner == NULL)
         sendMessage($userid, "Sorry, no stranger available now");
     else {
         addRelationship($userid, $partner);
