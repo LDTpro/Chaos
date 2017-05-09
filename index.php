@@ -54,7 +54,7 @@ if (isset($data['entry'][0]['messaging'][0]['postback']['payload'])) {
 }
 
 function request($jsondata) {
-	$url = 'https://graph.facebook.com/v2.9/me/messages?access_token=$ACCESS_TOKEN';
+	$url = "https://graph.facebook.com/v2.9/me/messages?access_token=$ACCESS_TOKEN";
 	$ch = curl_init($url);
 	curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $jsondata);
@@ -73,37 +73,37 @@ function sendButton($receiver) {
 }
 
 function checkUser($userid) {
-    $result = mysqli_query($GLOBALS["conn"], "SELECT * from users WHERE id ='$userid' LIMIT 1");
+    $result = mysqli_query($GLOBALS["conn"], "SELECT * from users WHERE id =$userid LIMIT 1");
     if ($result !== NULL)
         return true;
     return false;
 }
 
 function checkStatus($userid) {
-    $result = mysqli_query($GLOBALS["conn"], "SELECT status from users WHERE id ='$userid' ");
+    $result = mysqli_query($GLOBALS["conn"], "SELECT status from users WHERE id =$userid ");
     $row = mysqli_fetch_assoc($result);
     return $row;
 }
 
 function getRelationship($userid) {
-    $result = mysqli_query($GLOBALS["conn"], "SELECT relationship from users WHERE id ='$userid' ");
+    $result = mysqli_query($GLOBALS["conn"], "SELECT relationship from users WHERE id =$userid ");
     $row = mysqli_fetch_assoc($result);
     return $row;
 }
 
 function addRelationship($user1, $user2) {
-    mysqli_query($GLOBALS["conn"], "UPDATE users SET status = 1, relationship ='$user2'  WHERE id ='$user1' ");
-    mysqli_query($GLOBALS["conn"], "UPDATE users SET status = 1, relationship ='$user1'  WHERE id ='$user2' ");
+    mysqli_query($GLOBALS["conn"], "UPDATE users SET status = 1, relationship =$user2  WHERE id =$user1 ");
+    mysqli_query($GLOBALS["conn"], "UPDATE users SET status = 1, relationship =$user1  WHERE id =$user2 ");
 }
 
 function deleteRelationship($userid) {
     $partner = getRelationship($userid);
-    mysqli_query($GLOBALS["conn"], "UPDATE users SET status = 0, relationship = NULL WHERE id ='@userid' ");
-    mysqli_query($GLOBALS["conn"], "UPDATE users SET status = 0, relationship = NULL WHERE id ='$partner' ");
+    mysqli_query($GLOBALS["conn"], "UPDATE users SET status = 0, relationship = NULL WHERE id =$userid ");
+    mysqli_query($GLOBALS["conn"], "UPDATE users SET status = 0, relationship = NULL WHERE id =$partner ");
 }
 
 function addUser($userid) {
-    mysqli_query($GLOBALS["conn"], "INSERT INTO users (id, status) VALUES ('$userid', '0')");
+    mysqli_query($GLOBALS["conn"], "INSERT INTO users (id, status) VALUES ($userid, 0)");
 }
 
 function forwardMessage($userid, $msg) {
@@ -113,7 +113,7 @@ function forwardMessage($userid, $msg) {
 }
 
 function findRelationship($userid) {
-    $partner = mysqli_query($GLOBALS["conn"], "SELECT id FROM user WHERE status = 0 AND id != '$userid' ORDER BY RAND() LIMIT 1");
+    $partner = mysqli_query($GLOBALS["conn"], "SELECT id FROM user WHERE status = 0 AND id != $userid ORDER BY RAND() LIMIT 1");
     if ($partner === false)
         sendMessage($userid, "Sorry, no stranger available now");
     else {
