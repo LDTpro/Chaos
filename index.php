@@ -75,21 +75,22 @@ function sendButton($receiver) {
 
 function checkUser($userid) {
     $result = mysqli_query($GLOBALS["conn"], "SELECT * from users WHERE id =$userid LIMIT 1");
-    if ($result !== NULL)
-        return true;
-    return false;
+    $row = mysqli_num_rows($result);
+    return $row;
 }
 
 function checkStatus($userid) {
     $result = mysqli_query($GLOBALS["conn"], "SELECT status from users WHERE id =$userid ");
     $row = mysqli_fetch_assoc($result);
-    return $row;
+    $status = $row['status'];
+    return $status;
 }
 
 function getRelationship($userid) {
     $result = mysqli_query($GLOBALS["conn"], "SELECT relationship from users WHERE id =$userid ");
     $row = mysqli_fetch_assoc($result);
-    return $row;
+    $relationship = $row['relationship'];
+    return $relationship;
 }
 
 function addRelationship($user1, $user2) {
