@@ -22,7 +22,7 @@ if (isset($data['entry'][0]['messaging'][0]['sender']['id'])) {
 
 if (isset($data['entry'][0]['messaging'][0]['message']['text'])) {
 	$message = $data['entry'][0]['messaging'][0]['message']['text'];
-    if ($message === "bot")
+    if ($message === "bot" || $message === "Bot")
         sendButton($sender);
     else 
         forwardMessage($sender, $message);
