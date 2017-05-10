@@ -9,15 +9,15 @@ A Facebook Messenger bot that allows you to chat with strangers, written in PHP.
 * Fill in the *config.php* with the information you have.
 * All done. 
 
-### Remember: The webhook must use HTTPS. You can use Let's Encrypt for free.
+### Remember: The webhook must use HTTPS. You can use Let's Encrypt for free. This project needs a MySQL database to work.
 
 ## Usage
-Send message *bot* to page when you want to start chatting or end conversation.
+Send message *bot* to page when you want to start chatting or end the conversation.
 
 ## Maintainer
 * Vir ([mrvir](https://mrvir.com/))
 
-For more information on how the script was originally created and how it works, contact me.
+For more information on how the script was created and how it works, contact me.
 
 ## Credits
 
