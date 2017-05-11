@@ -35,9 +35,8 @@ if ( isset($data['entry'][0]['messaging'][0]['postback']['payload']) ) {
       else 
         sendMessage($sender, "Sorry, you can't start new conversation, you must end this conversation first");
     } else {
-        addUser($sender);
-        findRelationship($sender);
-      }
+      addUser($sender);
+      findRelationship($sender);
     }
 
     if ($postback === "stop") {
@@ -101,8 +100,8 @@ if ( isset($data['entry'][0]['messaging'][0]['postback']['payload']) ) {
   function addRelationship($user1, $user2) {
     global $conn;
 
-    mysqli_query($conn, "UPDATE users SET status = 1, relationship =$user2 WHERE id=$user1");
-    mysqli_query($conn, "UPDATE users SET status = 1, relationship =$user1 WHERE id=$user2");
+    mysqli_query($conn, "UPDATE users SET status = 1, relationship=$user2 WHERE id=$user1");
+    mysqli_query($conn, "UPDATE users SET status = 1, relationship=$user1 WHERE id=$user2");
   }
 
   function deleteRelationship($userid) {
