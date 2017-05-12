@@ -186,8 +186,8 @@ function findRelationship($userid) {
     sendButton($userid, 'Bạn đã được thêm vào hàng đợi, vui lòng chờ trong chốc lát...', 'queue_stop');
   } else {
     addRelationship($userid, $partner);
-    sendMessage($userid, "You have been connected with the stranger");
-    sendMessage($partner, "You have been connected with the stranger");
+    sendMessage($userid, "Bạn đã được kết nối tới người kia, hãy bắt đầu trò chuyện!");
+    sendMessage($partner, "Bạn đã được kết nối tới người kia, hãy bắt đầu trò chuyện!");
   }
 }
 
